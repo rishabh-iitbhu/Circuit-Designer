@@ -4,7 +4,7 @@ from utils.validators import validate_input
 
 def main():
     st.set_page_config(
-        page_title="Circuit Designer Pro",
+        page_title="PFC Circuit Designer Pro",
         page_icon="⚡",
         layout="wide",
         initial_sidebar_state="expanded"
