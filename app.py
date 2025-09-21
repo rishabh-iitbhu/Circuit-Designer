@@ -11,7 +11,7 @@ def main():
     )
 
     # Professional header
-    st.title("PFC Circuit Designer Pro")
+    st.title("Circuit Designer Pro")
     st.markdown("""
     <style>
         /* Modern theme with better visibility */
