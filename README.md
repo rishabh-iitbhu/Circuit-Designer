@@ -1,5 +1,5 @@
 # Circuit Designer Pro
-A professional Power Factor Correction (PFC) circuit design tool built with Streamlit.
+A professional circuit design tool built with Streamlit.
 
 ## Features
 - Calculate Totem Pole PFC circuit components
