@@ -1,0 +1,4 @@
+Part Name,Capacitance,Voltage Rating,Type,ESR,Efficiency/Performance,Package Type,Brand,Price,Supplier Link
+Murata GRM188R60J106ME47,10µF,6.3V,Ceramic,3Ω,High,0603,Murata,$0.12,https://www.murata.com/en-global/products/productdetail?partno=GRM188R60J106ME47
+Panasonic EEUFC1E471,470µF,25V,Electrolytic,-,Standard,-,Panasonic,$0.59,https://www.panasonic.com/global/consumer/capacitor/electrolytic/detail/EEUFC1E471.html
+AVX TAJB106K016RNJ,10µF,16V,Tantalum,2Ω,High,B,AVX,$0.34,https://www.kyocera-avx.com/products/tantalum/smd/taj/
