@@ -1,0 +1,6 @@
+Part Name,Input Voltage,Output Voltage,Current Rating,Efficiency,Technology,Package Type,Brand,Price,Supplier Link
+Wolfspeed C3M0120090D,900V,-,23A,High,SiC,TO-247,Wolfspeed,$9.81,https://www.mouser.com/ProductDetail/Wolfspeed/C3M0120090D
+onsemi NTBL023N065M3S,650V,-,23A,Very High,SiC,TO-247,onsemi,$15.80,https://www.digikey.com/en/products/detail/onsemi/NTBL023N065M3S
+Nexperia GAN140-650EBEZ,650V,-,unknown,High,GaN,-,Nexperia,$5.44,https://www.mouser.com/ProductDetail/Nexperia/GAN140-650EBEZ
+TAP2305,-20V,-,4.1A,Standard,Silicon,SOT23,Topdiode,$0.60,https://www.topdiode.com/html_products/TAP2305-SOT23-4-1A-20V-MOSFET-1210.html
+TP3400A,20V,-,4.5A,Standard,-,SOT23,On Semi,$0.50,https://octopart.com/tp3400a-tpsemi-126796995
