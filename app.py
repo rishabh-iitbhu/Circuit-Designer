@@ -2,6 +2,8 @@ import streamlit as st
 from utils.calculations import CircuitCalculator
 from utils.validators import validate_input
 from utils.mosfet_selector import suggest_mosfets
+from utils.inductor_selector import suggest_inductors
+from utils.capacitor_selector import suggest_capacitors
 
 def main():
     st.set_page_config(
@@ -62,24 +64,72 @@ def main():
                     st.write(f"Capacitance = {results['capacitance']*1e6:.2f} μF")
                     st.write(f"Ripple Current = {results['ripple_current']:.2f} A")
                     
+                    # Component suggestions section
+                    st.markdown("### Suggested Components")
+                    
                     # MOSFET suggestions
-                    st.markdown("### Suggested MOSFETs")
-                    try:
-                        mosfets = suggest_mosfets(v_in_max, results['ripple_current'])
-                        if mosfets:
-                            for idx, mosfet in enumerate(mosfets[:3]):  # Show top 3 suggestions
-                                with st.expander(f"Option {idx + 1}: {mosfet['Part Name']}"):
-                                    st.write(f"Voltage Rating: {mosfet['Input Voltage']}")
-                                    st.write(f"Current Rating: {mosfet['Current Rating']}")
-                                    st.write(f"Technology: {mosfet['Technology']}")
-                                    st.write(f"Package: {mosfet['Package Type']}")
-                                    st.write(f"Brand: {mosfet['Brand']}")
-                                    st.write(f"Price: {mosfet['Price']}")
-                                    st.write(f"[Purchase Link]({mosfet['Supplier Link']})")
-                        else:
-                            st.info("No suitable MOSFETs found for the calculated requirements.")
-                    except Exception as e:
-                        st.error(f"Error suggesting MOSFETs: {str(e)}")
+                    with st.expander("🔌 Suggested MOSFETs"):
+                        try:
+                            mosfets = suggest_mosfets(v_in_max, results['ripple_current'])
+                            if mosfets:
+                                for idx, mosfet in enumerate(mosfets[:3]):
+                                    with st.container():
+                                        st.subheader(f"Option {idx + 1}: {mosfet['Part Name']}")
+                                        st.write(f"Voltage Rating: {mosfet['Input Voltage']}V")
+                                        st.write(f"Current Rating: {mosfet['Current Rating']}A")
+                                        st.write(f"Technology: {mosfet['Technology']}")
+                                        st.write(f"Package: {mosfet['Package Type']}")
+                                        st.write(f"Brand: {mosfet['Brand']}")
+                                        st.write(f"Price: ${mosfet['Price']}")
+                                        st.write(f"[Purchase Link]({mosfet['Supplier Link']})")
+                            else:
+                                st.info("No suitable MOSFETs found for the calculated requirements.")
+                        except Exception as e:
+                            st.error(f"Error suggesting MOSFETs: {str(e)}")
+                    
+                    # Inductor suggestions
+                    with st.expander("🛠️ Suggested Inductors"):
+                        try:
+                            inductors = suggest_inductors(results['inductance'], results['ripple_current'])
+                            if inductors:
+                                for idx, inductor in enumerate(inductors[:3]):
+                                    with st.container():
+                                        st.subheader(f"Option {idx + 1}: {inductor['Part Name']}")
+                                        st.write(f"Inductance: {inductor['Inductance']*1e6:.2f} μH")
+                                        st.write(f"Current Rating: {inductor['Current Rating']}A")
+                                        st.write(f"DC Resistance: {inductor['DC Resistance']}")
+                                        st.write(f"Efficiency: {inductor['Efficiency']}")
+                                        st.write(f"Package: {inductor['Package Type']}")
+                                        st.write(f"Brand: {inductor['Brand']}")
+                                        st.write(f"Price: ${inductor['Price']}")
+                                        st.write(f"[Purchase Link]({inductor['Supplier Link']})")
+                            else:
+                                st.info("No suitable inductors found for the calculated requirements.")
+                        except Exception as e:
+                            st.error(f"Error suggesting inductors: {str(e)}")
+                    
+                    # Capacitor suggestions
+                    with st.expander("💾 Suggested Capacitors"):
+                        try:
+                            capacitors = suggest_capacitors(results['capacitance'], v_out_max)
+                            if capacitors:
+                                for idx, capacitor in enumerate(capacitors[:3]):
+                                    with st.container():
+                                        st.subheader(f"Option {idx + 1}: {capacitor['Part Name']}")
+                                        st.write(f"Capacitance: {capacitor['Capacitance']*1e6:.2f} μF")
+                                        st.write(f"Voltage Rating: {capacitor['Voltage Rating']}V")
+                                        st.write(f"Type: {capacitor['Type']}")
+                                        if capacitor['ESR'] != '-':
+                                            st.write(f"ESR: {capacitor['ESR']}")
+                                        st.write(f"Performance: {capacitor['Efficiency/Performance']}")
+                                        st.write(f"Package: {capacitor['Package Type']}")
+                                        st.write(f"Brand: {capacitor['Brand']}")
+                                        st.write(f"Price: ${capacitor['Price']}")
+                                        st.write(f"[Purchase Link]({capacitor['Supplier Link']})")
+                            else:
+                                st.info("No suitable capacitors found for the calculated requirements.")
+                        except Exception as e:
+                            st.error(f"Error suggesting capacitors: {str(e)}")
                 except Exception as e:
                     st.error(f"Calculation error: {str(e)}")
             else:
