@@ -1,0 +1,21 @@
+MOSFET Name,Vds (V),Rds(on) (mΩ),Qg (nC),Package,Continuous Id (A),Typical Use,Recommended Role,Efficiency Range,Manufacturer,Datasheet URL
+BSC016N06NS,60,1.6,44,SuperSO8,150,"Mid-power buck, low loss",High-side/Low-side,96–98%,Infineon,https://www.infineon.com/dgdl/Infineon-BSC016N06NS-DS-v02_02-en.pdf
+CSD19505KCS,60,2.5,37,TO-220,80,Classic synchronous buck,High-side/Low-side,95–97%,Texas Instruments,https://www.ti.com/lit/ds/symlink/csd19505kcs.pdf
+IPB017N10N5,100,1.7,70,D²PAK,120,48V bus robotics converter,High-side,96–97%,Infineon,https://www.infineon.com/dgdl/Infineon-IPB017N10N5-DS-v02_00-en.pdf
+AOZ5311NQI,25,6,12,DFN,40,Compact logic supply buck,High-side/Low-side,94–96%,Alpha & Omega,https://aosmd.com/res/data_sheets/AOZ5311NQI.pdf
+SiSS22DN,30,2.2,15,PowerPAK,60,"Small robots, drone logic rail",Low-side,95–97%,Vishay,https://www.vishay.com/docs/76258/siss22dn.pdf
+NVMFS6H824NL,80,4.3,38,SO-8FL,50,Automotive AGV converter,High-side/Low-side,95–97%,OnSemi,https://www.onsemi.com/pdf/datasheet/nvmfs6h824nl-d.pdf
+BSC340N08NS3G,80,3.4,26,SuperSO8,90,Mid-range converter,High-side,96–97%,Infineon,https://www.infineon.com/dgdl/Infineon-BSC340N08NS3G-DS-v02_00-en.pdf
+CSD19536KCS,100,2.3,45,TO-220,100,High-efficiency buck,High-side/Low-side,95–97%,Texas Instruments,https://www.ti.com/lit/ds/symlink/csd19536kcs.pdf
+IPB65R045CFD7,650,45,29,TO-220,18,SiC replacement candidate,High-side,94–96%,Infineon,https://www.infineon.com/dgdl/Infineon-IPB65R045CFD7-DS-v02_01-en.pdf
+AOZ5332QI,60,8,,QFN (Integrated HS/LS),25,Integrated power stage,Both,94–96%,Alpha & Omega,https://aosmd.com/res/data_sheets/AOZ5332QI.pdf
+IRLZ44N,55,22,67,TO-220,47,Benchmark reference MOSFET,Low-side,90–92%,Infineon (legacy IR),https://www.infineon.com/dgdl/irlz44n.pdf
+NTP65N10,100,6.5,35,TO-220,60,Robust mid-range FET,Low-side,93–95%,OnSemi,https://www.onsemi.com/pdf/datasheet/ntp65n10-d.pdf
+BSC057N08NS,80,5.7,40,SuperSO8,70,Common industrial buck FET,Low-side,94–96%,Infineon,https://www.infineon.com/dgdl/Infineon-BSC057N08NS-DS-v02_01-en.pdf
+SiR158DP,100,4,35,PowerPAK SO-8,75,Low gate charge FET,High-side/Low-side,95–96%,Vishay,https://www.vishay.com/docs/63431/sir158dp.pdf
+FDBL9402,40,3.6,18,Power56,80,Low-voltage high-efficiency,Low-side,96–98%,OnSemi,https://www.onsemi.com/pdf/datasheet/fdbl9402-d.pdf
+TPHR8504PL,40,4.5,20,SOP Advance,70,Toshiba for 12V rails,Low-side,95–97%,Toshiba,https://toshiba.semicon-storage.com/info/docget.jsp?did=65440
+AON6522,30,3,14,DFN 5x6,60,Compact low-side FET,Low-side,95–97%,Alpha & Omega,https://aosmd.com/res/data_sheets/AON6522.pdf
+NTMFS5C628NL,80,4.2,34,SO-8FL,70,High frequency efficiency,High-side,95–97%,OnSemi,https://www.onsemi.com/pdf/datasheet/ntmfs5c628nl-d.pdf
+IPB039N10N5,100,3.9,55,D²PAK,110,High current design,Low-side,95–96%,Infineon,https://www.infineon.com/dgdl/Infineon-IPB039N10N5-DS-v02_00-en.pdf
+SCT3120AL,1200,120,,TO-247,20,SiC high-voltage experimental,High-side,97–98%,Rohm,https://fscdn.rohm.com/en/products/databook/datasheet/discrete/sic/mosfet/sct3120al-e.pdf

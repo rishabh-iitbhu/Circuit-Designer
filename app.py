@@ -1,9 +1,97 @@
 import streamlit as st
+import pandas as pd
 from utils.calculations import CircuitCalculator
 from utils.validators import validate_input
 from utils.mosfet_selector import suggest_mosfets
 from utils.inductor_selector import suggest_inductors
 from utils.capacitor_selector import suggest_capacitors
+
+# Custom CSS for better styling
+def load_css():
+    st.markdown("""
+        <style>
+        .main {
+            background-color: #f5f5f5;
+        }
+        .stButton>button {
+            background-color: #0066cc;
+            color: white;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            border: none;
+        }
+        .stButton>button:hover {
+            background-color: #0052a3;
+        }
+        .component-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .stExpander {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+def show_components_library():
+    st.title("Components Library")
+    
+    # Load datasets
+    try:
+        mosfets_df = pd.read_csv("Assets/optivolt_mosfet_dataset.csv")
+        caps_df = pd.read_csv("Assets/powercrux_output_cap_dataset_starter.csv")
+        inductors_df = pd.read_csv("Assets/Top_Inductors_2025.csv")
+        
+        tab1, tab2, tab3 = st.tabs(["MOSFETs", "Capacitors", "Inductors"])
+        
+        with tab1:
+            st.header("MOSFETs Database")
+            # Show MOSFET data with highlighting
+            st.dataframe(
+                mosfets_df[[
+                    'MOSFET Name', 'Vds (V)', 'Rds(on) (mΩ)', 'Continuous Id (A)',
+                    'Package', 'Efficiency Range', 'Typical Use'
+                ]].style.highlight_min(
+                    subset=['Rds(on) (mΩ)'],
+                    color='lightgreen'
+                ).highlight_max(
+                    subset=['Continuous Id (A)'],
+                    color='lightblue'
+                ),
+                height=400
+            )
+            
+        with tab2:
+            st.header("Capacitors Database")
+            st.dataframe(
+                caps_df[[
+                    'Manufacturer', 'Series', 'PartNumber', 'Type',
+                    'Capacitance_uF', 'Voltage_V', 'Case', 'ESR_mOhm',
+                    'Temp_Range_C', 'Life_hrs'
+                ]].style.highlight_max(subset=['Capacitance_uF'], color='lightgreen')
+                     .highlight_min(subset=['ESR_mOhm'], color='lightblue'),
+                height=400
+            )
+            
+        with tab3:
+            st.header("Inductors Database")
+            st.dataframe(inductors_df, height=400)
+            
+    except Exception as e:
+        st.error(f"Error loading component databases: {str(e)}")
 
 def main():
     st.set_page_config(
@@ -11,8 +99,24 @@ def main():
         page_icon="⚡",
         layout="wide"
     )
+    
+    load_css()  # Load custom CSS
+    
+    # Navigation
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Select Page", ["Circuit Designer", "Components Library"])
+    
+    if page == "Components Library":
+        show_components_library()
+        return
 
-    st.title("Circuit Designer")
+    if page == "Circuit Designer":
+        st.title("⚡ Circuit Designer")
+        st.markdown("""
+        <div style='background-color: #e3f2fd; padding: 1rem; border-radius: 10px; margin-bottom: 2rem;'>
+            Design your power electronics circuits with intelligent component selection and optimization.
+        </div>
+        """, unsafe_allow_html=True)
 
     # Circuit type selection tabs
     tab1, tab2 = st.tabs(["PFC Circuit", "Buck Converter"])
@@ -77,11 +181,13 @@ def main():
                                         st.subheader(f"Option {idx + 1}: {mosfet['Part Name']}")
                                         st.write(f"Voltage Rating: {mosfet['Input Voltage']}V")
                                         st.write(f"Current Rating: {mosfet['Current Rating']}A")
-                                        st.write(f"Technology: {mosfet['Technology']}")
-                                        st.write(f"Package: {mosfet['Package Type']}")
-                                        st.write(f"Brand: {mosfet['Brand']}")
-                                        st.write(f"Price: ${mosfet['Price']}")
-                                        st.write(f"[Purchase Link]({mosfet['Supplier Link']})")
+                                    with st.container():
+                                        st.write(f"Package: {mosfet.get('Package Type', mosfet.get('Package', 'N/A'))}")
+                                        st.write(f"Efficiency: {mosfet.get('Efficiency Range', 'N/A')}")
+                                        st.write(f"Typical Use: {mosfet.get('Typical Use', 'N/A')}")
+                                        st.write(f"Rds(on): {mosfet.get('Rds(on) (mΩ)', 'N/A')} mΩ")
+                                        if mosfet.get('Datasheet URL'):
+                                            st.write(f"[Datasheet]({mosfet['Datasheet URL']})")
                             else:
                                 st.info("No suitable MOSFETs found for the calculated requirements.")
                         except Exception as e:
@@ -115,17 +221,48 @@ def main():
                             if capacitors:
                                 for idx, capacitor in enumerate(capacitors[:3]):
                                     with st.container():
-                                        st.subheader(f"Option {idx + 1}: {capacitor['Part Name']}")
+                                        st.subheader(f"Option {idx + 1}: {capacitor.get('PartNumber', f'Option {idx + 1}')}")
+                                        st.write(f"Manufacturer: {capacitor.get('Manufacturer', 'N/A')}")
+                                        st.write(f"Series: {capacitor.get('Series', 'N/A')}")
                                         st.write(f"Capacitance: {capacitor['Capacitance']*1e6:.2f} μF")
-                                        st.write(f"Voltage Rating: {capacitor['Voltage Rating']}V")
-                                        st.write(f"Type: {capacitor['Type']}")
-                                        if capacitor['ESR'] != '-':
-                                            st.write(f"ESR: {capacitor['ESR']}")
-                                        st.write(f"Performance: {capacitor['Efficiency/Performance']}")
-                                        st.write(f"Package: {capacitor['Package Type']}")
-                                        st.write(f"Brand: {capacitor['Brand']}")
-                                        st.write(f"Price: ${capacitor['Price']}")
-                                        st.write(f"[Purchase Link]({capacitor['Supplier Link']})")
+                                        st.write(f"Voltage Rating: {capacitor.get('Voltage Rating', 'N/A')}V")
+                                        st.write(f"Type: {capacitor.get('Type', 'N/A')}")
+                                        st.write(f"Dielectric: {capacitor.get('Dielectric', 'N/A')}")
+                                        
+                                        # Display ESR with appropriate handling of special values
+                                        esr_value = capacitor.get('ESR_mOhm', 'N/A')
+                                        if pd.notna(esr_value) and esr_value != 'N/A':
+                                            if isinstance(esr_value, str) and 'low' in esr_value.lower():
+                                                st.write("ESR: Low")
+                                            else:
+                                                st.write(f"ESR: {esr_value} mΩ")
+                                        
+                                        st.write(f"Case Size: {capacitor.get('Case', 'N/A')}")
+                                        
+                                        # Handle height with special value handling
+                                        height = capacitor.get('Height_mm', 'N/A')
+                                        if height != 'N/A' and height != 'varies':
+                                            if isinstance(height, str) and height.startswith('~'):
+                                                st.write(f"Height: {height} mm (approximate)")
+                                            else:
+                                                st.write(f"Height: {height} mm")
+                                        
+                                        # Display additional specifications
+                                        st.write(f"Temperature Range: {capacitor.get('Temp_Range_C', 'N/A')}")
+                                        
+                                        life_hrs = capacitor.get('Life_hrs', 'N/A')
+                                        if life_hrs != 'N/A':
+                                            if isinstance(life_hrs, str) and '@' in life_hrs:
+                                                hours, temp = life_hrs.split('@')
+                                                st.write(f"Life Hours: {hours.strip()} hours at {temp.strip()}")
+                                            else:
+                                                st.write(f"Life Hours: {life_hrs}")
+                                        
+                                        if pd.notna(capacitor.get('Notes')) and capacitor['Notes'] != 'N/A':
+                                            st.write(f"Notes: {capacitor['Notes']}")
+                                            
+                                        if pd.notna(capacitor.get('PrimaryUse')) and capacitor['PrimaryUse'] != 'N/A':
+                                            st.write(f"Primary Use: {capacitor['PrimaryUse']}")
                             else:
                                 st.info("No suitable capacitors found for the calculated requirements.")
                         except Exception as e:

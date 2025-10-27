@@ -3,19 +3,30 @@ import os
 
 def load_mosfet_data():
     """Load MOSFET data from CSV file."""
-    file_path = os.path.join(os.path.dirname(__file__), 'Assets', 'Top_MOSFETs_2025.csv')
+    file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Assets', 'optivolt_mosfet_dataset.csv')
     try:
         # Read CSV with comma delimiter
         df = pd.read_csv(file_path)
         
-        # Clean voltage data - remove 'V' and convert to float
-        df['Input Voltage'] = df['Input Voltage'].str.replace('V', '').astype(float)
+        # Create consistent column names
+        df = df.rename(columns={
+            'MOSFET Name': 'Part Name',
+            'Vds (V)': 'Input Voltage',
+            'Continuous Id (A)': 'Current Rating',
+            'Package': 'Package Type'
+        })
         
-        # Clean current data - remove 'A' and handle 'unknown' values
-        df['Current Rating'] = df['Current Rating'].apply(lambda x: 0 if x == 'unknown' else float(x.replace('A', '')))
+        # Convert voltage and current to float
+        df['Input Voltage'] = pd.to_numeric(df['Input Voltage'], errors='coerce')
+        df['Current Rating'] = pd.to_numeric(df['Current Rating'], errors='coerce')
         
-        # Clean price data - remove '$' and convert to float
-        df['Price'] = df['Price'].str.replace('$', '').astype(float)
+        # Add standard columns if missing
+        if 'Price' not in df.columns:
+            df['Price'] = 0.0
+        if 'Efficiency/Performance' not in df.columns:
+            df['Efficiency/Performance'] = df['Efficiency Range'].fillna('N/A')
+        if 'Supplier Link' not in df.columns:
+            df['Supplier Link'] = df['Datasheet URL']
         
         return df
     except Exception as e:
@@ -45,9 +56,13 @@ def suggest_mosfets(voltage_requirement, current_requirement):
             (mosfets_df['Current Rating'] >= current_with_margin)
         ]
         
-        # Sort by price and efficiency
+        # Sort by price and efficiency range
+        # Convert efficiency range to numeric value (take the average of the range)
+        suitable_mosfets['Efficiency_Value'] = suitable_mosfets['Efficiency Range'].str.extract('(\d+).*?(\d+)').astype(float).mean(axis=1)
+        
+        # Sort by price and efficiency value
         suitable_mosfets = suitable_mosfets.sort_values(
-            by=['Price', 'Efficiency'],
+            by=['Price', 'Efficiency_Value'],
             ascending=[True, False]
         )
         

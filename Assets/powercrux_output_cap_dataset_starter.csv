@@ -1,0 +1,14 @@
+Manufacturer,Series,PartNumber,Type,Dielectric,Capacitance_uF,Voltage_V,Case,Height_mm,ESR_mOhm,Ripple_Current_A_100kHz,Temp_Range_C,Life_hrs,Notes,PrimaryUse
+TDK,C3216,C3216X7R1H106K160AC,MLCC,X7R,10,50,1206,~1.6,~2-5 (typ),n/a,-55..125,n/a,Good HF decoupling on 12/24 V rails; use effective-C ≈ 0.4× nominal for hot+bias,HF ripple + local decoupling
+TDK,C3225,C3225X7R1E226M250AB,MLCC,X7R,22,25,1210,~2.5,~2-5 (typ),n/a,-55..125,n/a,Use on 12 V rails; effective-C ≈ 0.4× nominal at hot+bias,HF ripple + part of bulk on 12 V
+TDK,C3216,C3216X7R1H106K160AE,MLCC,X7R,10,50,1206,~1.6,~2-5 (typ),n/a,-55..125,n/a,Variant/status-checked 2025-10; similar to -160AC,HF ripple + local decoupling
+TDK,CGA6P (soft-term),CGA6P3X7R1E226M250AE,MLCC,X7R,22,25,1210,~2.5,~2-5 (typ),n/a,-55..125,n/a,Soft termination for mechanical robustness (robotics vibration),HF ripple + part of bulk on 12 V
+Taiyo Yuden,MMASU32,MMASU32MAB7106KPNA01,MLCC,X7R,10,50,1210,~2.5,~2-5 (typ),n/a,-55..125,n/a,1210 10uF/50V; consider 2–4 in parallel near load,HF ripple on 24 V rail
+Taiyo Yuden,MMJCU32 (flex-term),MMJCU32MLB7106KPPDT1,MLCC,X7R,10,50,1210,~2.5,~2-5 (typ),n/a,-55..125,n/a,Flexible termination to mitigate board flex cracking,HF ripple on 24 V rail
+Panasonic,OS-CON SVPF,25SVPF330M,Polymer (OS-CON),Polymer Aluminum,330,25,Radial,~12,~12-20 (series-dependent),~2-3 (series-dependent),-55..105,2000 @105C,Good bulk for 12 V rails; low ESR for damping,Bulk energy + damping (12 V)
+Panasonic,OS-CON SXV,63SXV100M,Polymer (OS-CON),Polymer Aluminum,100,63,SMD vertical,-,low,3.28 (at 105C),-55..125,1000 @125C,High-voltage polymer option for 24 V rails,Bulk energy + damping (24 V)
+KEMET,A750,A750KW337M1VAAE020,Polymer Aluminum,Polymer Aluminum,330,35,Radial 8x16,16,20 (spec),~3 (series-dependent),-55..105,2000 @105C,Great bulk choice for 24 V rails; ESR ~20 mΩ gives natural damping,Bulk energy + damping (24 V)
+KEMET,A750,A750KS227M1EAAE015,Polymer Aluminum,Polymer Aluminum,220,63,Radial,-,~15 (series),-,-55..105,2000 @105C,Higher voltage margin for 24 V rails (63 V rated),"Bulk energy + damping (24 V, high margin)"
+Nichicon,FPCAP RPS,RPS (series selection),Polymer Aluminum (SMD),Polymer Aluminum,8.2–1500,2.5–63,SMD φ6.3/φ8/φ10,varies,low (series),high (series),-55..105,2000–5000 @105C,"Pick 35–63 V, 220–470 µF for 24 V rails; 16–25 V, 150–330 µF for 12 V rails",Bulk energy + damping
+Nichicon,FPCAP RPS example,RPS1C330MCN1GS,Polymer Aluminum (SMD),Polymer Aluminum,33,16,SMD φ6.3x5.7,5.7,40 @100kHz,1.7,-55..105,2000 @105C,Example pinout/spec. For 12 V rails prefer ≥25 V variants in RPS,Small bulk (12 V aux)
+Panasonic,"FS (electrolytic, low-ESR)",EEU-FS1V331LB,Aluminum Electrolytic (low-ESR),Electrolytic,330,35,Radial 8x15,15,low (series),-,-55..105,8000 @105C,Hybrid alternative when polymer cost/availability is tight,"Bulk energy (24 V), higher life spec"
